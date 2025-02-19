@@ -1,13 +1,13 @@
-CC = clang
+CC = cc
 CFLAGS = -Wall -Werror -Wextra -O2
 NAME = pipex
 
-SRC = src/pipex.c
+SRC = src/pipex.c src/utils.c
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 OBJ = $(SRC:.c=.o)
-INC = -Iinclude -I$(LIBFT_DIR)
+INC = -Iinclude -I$(LIBFT_DIR)/include
 
 all: $(NAME)
 
@@ -17,8 +17,8 @@ $(LIBFT):
 %.o: %.c
 	$(CC) $(CFLAGS) $(INC) -c $< -o $@
 
-$(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
+$(NAME): $(LIBFT) $(OBJ) 
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -o $(NAME)
 
 clean:
 	rm -rf $(OBJ)
