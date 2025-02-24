@@ -6,7 +6,7 @@
 /*   By: jhyokki <jhyokki@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:01:26 by jhyokki           #+#    #+#             */
-/*   Updated: 2025/02/18 15:01:41 by jhyokki          ###   ########.fr       */
+/*   Updated: 2025/02/24 13:10:58 by jhyokki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 char	*get_cmd_path(char *cmd, char **envp);
 void	check_files(char *infile, char *outfile);
 void	execute_command(char **cmd_args, char **envp);
-void	init_pipe(int fd[2]);
 void	execute_cmd1(int fd[2], char **argv, char **envp);
 void	execute_cmd2(int fd[2], char **argv, char **envp);
 int		handle_processes(int fd[2], char **argv, char **envp);

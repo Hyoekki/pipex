@@ -1,11 +1,10 @@
 CC = cc
 CFLAGS = -Wall -Werror -Wextra -O2
 NAME = pipex
-
-SRC = src/pipex.c src/utils.c
+SRC = src/pipex.c \
+	src/utils.c
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
-
 OBJ = $(SRC:.c=.o)
 INC = -Iinclude -I$(LIBFT_DIR)/include
 

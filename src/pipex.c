@@ -6,7 +6,7 @@
 /*   By: jhyokki <jhyokki@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:01:30 by jhyokki           #+#    #+#             */
-/*   Updated: 2025/02/19 15:21:27 by jhyokki          ###   ########.fr       */
+/*   Updated: 2025/02/24 14:43:53 by jhyokki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,11 @@ int	main(int argc, char **argv, char **envp)
 	}
 	check_files(argv[1], argv[4]);
 	check_commands(argv[2], argv[3], envp);
-	init_pipe(fd);
+	if (pipe(fd) == -1)
+	{
+		perror("Failed to create pipe");
+		exit(EXIT_FAILURE);
+	}
 	return (handle_processes(fd, argv, envp));
 }
 
@@ -72,23 +76,13 @@ void	check_commands(char *cmd1, char *cmd2, char **envp)
 	free_array_of_strings(cmd2_split);
 }
 
-void	init_pipe(int fd[2])
-{
-	if (pipe(fd) == -1)
-	{
-		perror("Failed to create pipe");
-		exit(EXIT_FAILURE);
-	}
-}
-
 int	handle_processes(int fd[2], char **argv, char **envp)
 {
 	pid_t	pid1;
 	pid_t	pid2;
-	int		status;
-	int		exit_code;
+	int		status1;
+	int		status2;
 
-	exit_code = 0;
 	pid1 = fork();
 	if (pid1 < 0)
 		exit(EXIT_FAILURE);
@@ -101,11 +95,11 @@ int	handle_processes(int fd[2], char **argv, char **envp)
 		execute_cmd2(fd, argv, envp);
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid1, &status, 0);
-	if (WIFEXITED(status))
-		exit_code = WEXITSTATUS(status);
-	waitpid(pid2, &status, 0);
-	if (WIFEXITED(status))
-		exit_code = WEXITSTATUS(status);
-	return (exit_code);
+	waitpid(pid1, &status1, 0);
+	waitpid(pid2, &status2, 0);
+	if (WIFEXITED(status1) && WEXITSTATUS(status1) == 127)
+		return (127);
+	if (WIFEXITED(status2))
+		return (WEXITSTATUS(status2));
+	return (EXIT_FAILURE);
 }
