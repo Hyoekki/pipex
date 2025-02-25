@@ -6,7 +6,7 @@
 /*   By: jhyokki <jhyokki@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:41:27 by jhyokki           #+#    #+#             */
-/*   Updated: 2025/02/24 15:02:52 by jhyokki          ###   ########.fr       */
+/*   Updated: 2025/02/25 11:43:37 by jhyokki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*get_cmd_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-static char	*try_path(char *cmd, char *dir)
+char	*try_path(char *cmd, char *dir)
 {
 	char	*full_path;
 	char	*path;
