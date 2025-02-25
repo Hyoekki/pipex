@@ -6,7 +6,7 @@
 /*   By: jhyokki <jhyokki@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:41:27 by jhyokki           #+#    #+#             */
-/*   Updated: 2025/02/24 14:42:03 by jhyokki          ###   ########.fr       */
+/*   Updated: 2025/02/24 15:02:52 by jhyokki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,22 +16,6 @@
 #include <stdlib.h>
 #include "../libft/include/libft.h"
 #include "../include/pipex.h"
-
-static char	*try_path(char *cmd, char *dir)
-{
-	char	*full_path;
-	char	*path;
-
-	full_path = ft_strjoin(dir, "/");
-	if (!full_path)
-		return (NULL);
-	path = ft_strjoin(full_path, cmd);
-	free(full_path);
-	if (path && access(path, X_OK) == 0)
-		return (path);
-	free(path);
-	return (NULL);
-}
 
 char	*get_cmd_path(char *cmd, char **envp)
 {
@@ -62,22 +46,20 @@ char	*get_cmd_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-void	execute_command(char **cmd_args, char **envp)
+static char	*try_path(char *cmd, char *dir)
 {
-	char	*cmd_path;
+	char	*full_path;
+	char	*path;
 
-	cmd_path = get_cmd_path(cmd_args[0], envp);
-	if (!cmd_path)
-	{
-		free_array_of_strings(cmd_args);
-		perror("command not found");
-		exit(127);
-	}
-	execve(cmd_path, cmd_args, envp);
-	free(cmd_path);
-	free_array_of_strings(cmd_args);
-	perror("execve failed");
-	exit(EXIT_FAILURE);
+	full_path = ft_strjoin(dir, "/");
+	if (!full_path)
+		return (NULL);
+	path = ft_strjoin(full_path, cmd);
+	free(full_path);
+	if (path && access(path, X_OK) == 0)
+		return (path);
+	free(path);
+	return (NULL);
 }
 
 void	execute_cmd1(int fd[2], char **argv, char **envp)
@@ -128,4 +110,22 @@ void	execute_cmd2(int fd[2], char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	execute_command(cmd_args, envp);
+}
+
+void	execute_command(char **cmd_args, char **envp)
+{
+	char	*cmd_path;
+
+	cmd_path = get_cmd_path(cmd_args[0], envp);
+	if (!cmd_path)
+	{
+		free_array_of_strings(cmd_args);
+		perror("command not found");
+		exit(127);
+	}
+	execve(cmd_path, cmd_args, envp);
+	free(cmd_path);
+	free_array_of_strings(cmd_args);
+	perror("execve failed");
+	exit(EXIT_FAILURE);
 }
