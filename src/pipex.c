@@ -6,7 +6,7 @@
 /*   By: jhyokki <jhyokki@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/14 18:01:30 by jhyokki           #+#    #+#             */
-/*   Updated: 2025/03/19 14:03:11 by jhyokki          ###   ########.fr       */
+/*   Updated: 2025/03/19 14:38:53 by jhyokki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ int	main(int argc, char **argv, char **envp)
 		exit(EXIT_FAILURE);
 	}
 	check_file(argv[1], R_OK);
-	check_file(argv[4], F_OK);
-	check_file(argv[4], W_OK);
 	check_command(argv[2], envp);
 	check_command(argv[3], envp);
 	if (pipe(fd) == -1)
