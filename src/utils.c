@@ -6,7 +6,7 @@
 /*   By: jhyokki <jhyokki@student.hive.fi>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/10 13:41:27 by jhyokki           #+#    #+#             */
-/*   Updated: 2025/02/25 11:43:37 by jhyokki          ###   ########.fr       */
+/*   Updated: 2025/03/19 14:03:13 by jhyokki          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*try_path(char *cmd, char *dir)
 	return (NULL);
 }
 
-void	execute_cmd1(int fd[2], char **argv, char **envp)
+void	child_process(int fd[2], char **argv, char **envp)
 {
 	int		fd_in;
 	char	**cmd_args;
@@ -87,7 +87,7 @@ void	execute_cmd1(int fd[2], char **argv, char **envp)
 	execute_command(cmd_args, envp);
 }
 
-void	execute_cmd2(int fd[2], char **argv, char **envp)
+void	parent_process(int fd[2], char **argv, char **envp)
 {
 	int		fd_out;
 	char	**cmd_args;
