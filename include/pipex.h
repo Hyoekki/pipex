@@ -16,6 +16,8 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include "../libft/include/libft.h"
 
 char	*get_cmd_path(char *cmd, char **envp);
